@@ -1,0 +1,99 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Container = require('../component/Container');
+
+var _Container2 = _interopRequireDefault(_Container);
+
+var _Suggest = require('../../tools/Suggest');
+
+var _Suggest2 = _interopRequireDefault(_Suggest);
+
+var _reactHighlight = require('react-highlight');
+
+var _reactHighlight2 = _interopRequireDefault(_reactHighlight);
+
+var _xhr = require('../utils/xhr');
+
+var _xhr2 = _interopRequireDefault(_xhr);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TooltipsHtml = function (_React$Component) {
+    _inherits(TooltipsHtml, _React$Component);
+
+    function TooltipsHtml(props) {
+        _classCallCheck(this, TooltipsHtml);
+
+        return _possibleConstructorReturn(this, (TooltipsHtml.__proto__ || Object.getPrototypeOf(TooltipsHtml)).call(this, props));
+    }
+
+    _createClass(TooltipsHtml, [{
+        key: 'render',
+        value: function render() {
+
+            var config = {
+                name: 'Suggest',
+                desc: 'Suggest组件',
+                options: [{ key: 'handleChange', type: 'Function', default: '', required: 'Y', desc: 'suggest 输入框change时的回调函数 带一个默认参数 value(单签输入框的值) ' }, { key: 'disKey', type: 'string', default: 'name', desc: 'suggest返回的列表需要显示的值的key' }, { key: 'placeholder', type: 'string', default: '', desc: 'placeholder' }, { key: 'coverLabel', type: 'boolean', default: 'true', desc: '选中列表中某一对象后的状态，默认为标签覆盖suggest' }, { key: 'labelKey', type: 'string', default: '同disKey', desc: '选中后显示值的key' }, { key: 'removeLabel', type: 'Function', default: '', desc: '移出选中回调函数' }, { key: 'defaultValue', type: 'string', default: '\'\'', desc: '默认选中显示值' }, { key: 'wait', type: 'number', default: '300', desc: '防止频繁发送请求去抖延迟时间' }, { key: 'trigger', type: 'Function', default: '', desc: '选中回调' }]
+            };
+            var suggest = {
+                handleChange: function handleChange(value) {
+                    return (0, _xhr2.default)('GET', '/datas/suggest.json').then(function (res) {
+                        return res.list;
+                    });
+                },
+                trigger: function trigger(item) {
+                    alert('I select email ' + item.email);
+                }
+            };
+            return _react2.default.createElement(
+                _Container2.default,
+                { config: config },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'example clearfix' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'fl' },
+                        _react2.default.createElement(_Suggest2.default, suggest)
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'code' },
+                    _react2.default.createElement(
+                        _reactHighlight2.default,
+                        { className: 'javascript' },
+                        'json:\n{\n    "list": [\n        {"value": "A", "name": "suggest A", "email": "A@gmail.com"},\n        {"value": "B", "name": "suggest B", "email": "B@gmail.com"},\n        {"value": "C", "name": "suggest C", "email": "C@gmail.com"}\n    ]\n}\n\nconst suggest = {\n    handleChange: (value) => {\n        return xhr(\'GET\', \'/datas/suggest.json\')\n            .then((res) => {\n                return res.list;\n            });\n    },\n    trigger: (item) => {\n        alert(\'I select email \' + item.email);\n    }\n}'
+                    ),
+                    _react2.default.createElement(
+                        _reactHighlight2.default,
+                        { className: 'html' },
+                        '<Suggest {...suggest} />'
+                    )
+                )
+            );
+        }
+    }]);
+
+    return TooltipsHtml;
+}(_react2.default.Component);
+
+exports.default = TooltipsHtml;

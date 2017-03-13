@@ -1,0 +1,39 @@
+.erp-radio-wrap {
+    display: inline-block;
+    label {
+        cursor: pointer;
+        height: 28px;
+        line-height: 28px;
+        .radio {
+            @scale: 20px;
+            display: inline-block;
+            height: @scale;
+            line-height: 16px;
+            width: @scale;
+            border-radius: 50%;
+            margin-right: 5px;
+            text-align: center;
+            border: 1px solid #ccc;
+            vertical-align: top;
+            margin-top: 4px;
+            .radio-inner {
+                display: inline-block;
+                height: 8px;
+                width: 8px;
+                border-radius: 50%;
+                background-color: #7a7a7a;
+            }
+        }
+        .desc {
+            display: inline-block;
+            line-height: 20px;
+        }
+        .radio, .desc {
+            vertical-align: top;
+            margin-top: 4px;
+        }
+    }
+    label + label {
+        margin-left: 15px;
+    }
+}

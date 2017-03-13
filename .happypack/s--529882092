@@ -1,0 +1,34 @@
+/**
+ * @file  [Promise]
+ * @param  {String} method [默认GET]
+ * @param  {String} url    [URL]
+ * @param  {Object} data   [data]
+ * @param  {Object} options [noLoading, noDeal]
+ * @return {Promise}       []
+ */
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+
+var _superagentBluebirdPromise = require('superagent-bluebird-promise');
+
+var _superagentBluebirdPromise2 = _interopRequireDefault(_superagentBluebirdPromise);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+exports.default = function (method, url) {
+    var data = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+    var options = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : {};
+
+    var promise = (0, _superagentBluebirdPromise2.default)(method, url).set({ Accept: 'application/json' }).set('X-Requested-With', 'XMLHttpRequest').set('Cache-Control', 'no-cache,no-store,must-revalidate,max-age=-1').send(data).then(function (res) {
+        var result = JSON.parse(res.text);
+        return result;
+    }, function (err) {
+        promise.cancel();
+    });
+
+    return promise;
+};

@@ -1,0 +1,343 @@
+/**
+ * @file Popup
+ * @author liangdong06
+ */
+
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _class, _temp;
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactDom = require('react-dom');
+
+var _reactDom2 = _interopRequireDefault(_reactDom);
+
+var _domHelpers = require('dom-helpers');
+
+var _domHelpers2 = _interopRequireDefault(_domHelpers);
+
+require('./Popup.less');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Popup = (_temp = _class = function (_React$Component) {
+    _inherits(Popup, _React$Component);
+
+    function Popup(props, context) {
+        _classCallCheck(this, Popup);
+
+        var _this = _possibleConstructorReturn(this, (Popup.__proto__ || Object.getPrototypeOf(Popup)).call(this, props));
+
+        if (!_this.props.target) {
+            throw 'You may forget to add a target';
+        }
+        _this.container = null;
+        _this.state = {
+            isShow: props.show
+        };
+        return _this;
+    }
+
+    _createClass(Popup, [{
+        key: 'componentWillReceiveProps',
+        value: function componentWillReceiveProps(props) {
+            if (props.show) {
+                this.popupShow();
+            } else {
+                this.clearPopup();
+            }
+        }
+    }, {
+        key: 'popupShow',
+        value: function popupShow() {
+            if (!this.props.insertBody) {
+                this.setState({
+                    isShow: true
+                });
+            } else if (!this.container) {
+                this.appendToBody();
+            }
+            if (!this.mountClick) {
+                this.mountClick = this.autoClose.bind(this);
+                document.addEventListener('click', this.mountClick, false);
+            }
+        }
+
+        /**
+         * 插入body
+         */
+
+    }, {
+        key: 'appendToBody',
+        value: function appendToBody() {
+            this.container = document.createElement('div');
+            document.body.appendChild(this.container);
+            _reactDom2.default.unstable_renderSubtreeIntoContainer(this, this.generateChild(), this.container);
+        }
+
+        /**
+         * 点击屏幕关闭popup
+         * @param {Object} e event
+         */
+
+    }, {
+        key: 'autoClose',
+        value: function autoClose(e) {
+            var self = _reactDom2.default.findDOMNode(this);
+            if (this.container && !_domHelpers.query.contains(this.container, e.target) || self && !_domHelpers.query.contains(self, e.target)) {
+                this.close();
+            }
+        }
+
+        /**
+         * 生成子节点
+         * @return {jsx} 子节点
+         */
+
+    }, {
+        key: 'generateChild',
+        value: function generateChild() {
+            var triggerProp = {
+                close: this.close.bind(this)
+            };
+            var child = (0, _react.cloneElement)(this.props.children, triggerProp);
+            return _react2.default.createElement(
+                PopupInner,
+                _extends({}, this.props, { close: this.close.bind(this) }),
+                child
+            );
+        }
+
+        /**
+         * 关闭Popup
+         */
+
+    }, {
+        key: 'close',
+        value: function close() {
+            this.clearPopup();
+            if (this.props.onHide) {
+                this.props.onHide();
+            }
+        }
+
+        /**
+         * 清除Popup
+         */
+
+    }, {
+        key: 'clearPopup',
+        value: function clearPopup() {
+            if (this.container) {
+                document.body.removeChild(this.container);
+                this.container = null;
+            } else if (!this.props.insertBody) {
+                this.setState({
+                    isShow: false
+                });
+            }
+            document.removeEventListener('click', this.mountClick);
+            this.mountClick = null;
+        }
+    }, {
+        key: 'componentWillUnmount',
+        value: function componentWillUnmount() {
+            this.clearPopup();
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _props = this.props,
+                children = _props.children,
+                props = _objectWithoutProperties(_props, ['children']);
+
+            if (!this.state.isShow) {
+                return null;
+            }
+            var Element = !this.props.insertBody ? this.generateChild() : null;
+            return Element;
+        }
+    }]);
+
+    return Popup;
+}(_react2.default.Component), _class.defaultProps = {
+    placement: 'top',
+    trigger: 'click',
+    spacing: 5,
+    className: '',
+    triggle: true,
+    insertBody: false
+}, _temp);
+exports.default = Popup;
+
+var PopupInner = function (_React$Component2) {
+    _inherits(PopupInner, _React$Component2);
+
+    function PopupInner(props, context) {
+        _classCallCheck(this, PopupInner);
+
+        var _this2 = _possibleConstructorReturn(this, (PopupInner.__proto__ || Object.getPrototypeOf(PopupInner)).call(this, props));
+
+        _this2.state = {
+            position: {
+                positionLeft: 0,
+                positionTop: 0
+            },
+            triggle: {
+                placement: 'top',
+                positionLeft: 0,
+                positionTop: 0
+            }
+        };
+        return _this2;
+    }
+
+    _createClass(PopupInner, [{
+        key: 'componentDidMount',
+        value: function componentDidMount() {
+            this.target = this.getTarget();
+            this.container = _reactDom2.default.findDOMNode(this);
+            this.updatePosition();
+        }
+    }, {
+        key: 'componentDidUpdate',
+        value: function componentDidUpdate() {
+            // const pos = this.state.position;
+            // const container = ReactDOM.findDOMNode(this);
+            // const containBox = query.offset(container);
+            // if (pos.containerW !== containBox.width
+            //     || pos.containerH !== containBox.height) {
+            //     // this.updatePosition();
+            // }
+        }
+    }, {
+        key: 'getTarget',
+        value: function getTarget() {
+            if (typeof this.props.target === 'function') {
+                return this.props.target();
+            }
+            return this.props.target;
+        }
+    }, {
+        key: 'preventPropagation',
+        value: function preventPropagation(e) {
+            e.stopPropagation();
+        }
+    }, {
+        key: 'updatePosition',
+        value: function updatePosition() {
+
+            var targetBox = this.props.insertBody ? _domHelpers.query.offset(this.target) : _domHelpers.query.position(this.target);
+            console.log(_domHelpers.query.offset(this.target));
+            console.log(_domHelpers.query.position(this.target));
+            var containBox = _domHelpers.query.offset(this.container);
+            var triggleBox = {
+                width: 16,
+                height: 16
+            };
+            var pos = {
+                containerW: containBox.width,
+                containerH: containBox.height
+            };
+            var triggle = {};
+            // 上部高度
+            var top = targetBox.top - containBox.height - triggleBox.height / 2 - this.props.spacing;
+            var bottom = targetBox.top + targetBox.height + triggleBox.height / 2 + this.props.spacing;
+            switch (this.props.placement) {
+                case 'right':
+                    Object.assign(pos, {
+                        positionLeft: targetBox.left + targetBox.width,
+                        positionTop: targetBox.top
+                    });
+                    break;
+                case 'top':
+                    Object.assign(pos, {
+                        positionLeft: targetBox.left,
+                        positionTop: top
+                    });
+                    triggle = {
+                        placement: 'top',
+                        positionLeft: (targetBox.width - triggleBox.width) / 2,
+                        positionTop: containBox.height - 1
+                    };
+                    break;
+                case 'right top':
+                    Object.assign(pos, {
+                        positionLeft: targetBox.left - containBox.width + targetBox.width,
+                        positionTop: top
+                    });
+                    triggle = {
+                        placement: 'top',
+                        positionLeft: containBox.width - (targetBox.width + triggleBox.width) / 2,
+                        positionTop: containBox.height - 1
+                    };
+                    break;
+                case 'bottom left':
+                    Object.assign(pos, {
+                        positionLeft: targetBox.left,
+                        positionTop: bottom
+                    });
+                    triggle = {
+                        placement: 'bottom',
+                        positionLeft: (targetBox.width + triggleBox.width) / 2,
+                        positionTop: -triggleBox.height + 1
+                    };
+                default:
+                    // statements_def
+                    break;
+            }
+            this.setState({
+                position: pos,
+                triggle: triggle
+            });
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var className = 'popup ' + this.props.className;
+            var triggleClass = 'triggle ' + this.state.triggle.placement;
+            var style = {
+                left: this.state.position.positionLeft,
+                top: this.state.position.positionTop
+            };
+            var triggleStyle = {
+                left: this.state.triggle.positionLeft,
+                top: this.state.triggle.positionTop
+            };
+            var child = _react2.default.cloneElement(this.props.children, {});
+            return _react2.default.createElement(
+                'div',
+                { id: 'popup', className: className, style: style, onClick: this.preventPropagation.bind(this) },
+                this.props.triggle ? _react2.default.createElement(
+                    'span',
+                    { className: triggleClass, style: triggleStyle },
+                    _react2.default.createElement('i', { className: 'tri triggle-outer' }),
+                    _react2.default.createElement('i', { className: 'tri triggle-inner' })
+                ) : null,
+                child
+            );
+        }
+    }]);
+
+    return PopupInner;
+}(_react2.default.Component);

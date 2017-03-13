@@ -1,0 +1,449 @@
+@import "config.less";
+@import "utils.less";
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: @boxSizeing;
+}
+html {
+    height: 100%;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+}
+body {
+    min-height: 100%;
+    min-width: @minWidth;
+    position: relative;
+    font: @fontSize/1.2 'Microsoft Yahei', arial, Simsun , Helvetica , sans-serif;
+    color: @fontColor;
+    background-color: @bodyBgColor;
+    min-width: @minWidth;
+}
+
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+menu,
+nav,
+section,
+summary {
+    display: block;
+}
+
+ul {
+    list-style-type: none
+}
+
+a {
+    color: inherit;
+    cursor: pointer;
+    background-color: transparent;
+    text-decoration: none;
+    outline: none;
+    &:active {
+        outline: 0;
+    }
+    &:hover {
+        color: @linkColor;
+    }
+    &:visited {
+        // color: inherit;
+    }
+}
+
+img {
+    border: 0;
+}
+
+b,
+strong {
+    font-weight: bold;
+}
+
+label {
+    display: inline-block;
+    font-weight: 400;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    color: inherit;
+    font: inherit;
+    margin: 0;
+    outline: none;
+}
+
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+
+button[disabled],
+html input[disabled] {
+    cursor: default;
+}
+
+button::-moz-focus-inner,
+input[type="button"]::-moz-focus-inner { border:none; padding:0; }
+
+//
+// Remove default vertical scrollbar in IE 8/9/10/11.
+//
+
+textarea {
+    overflow: auto;
+    resize: none;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td,
+th {
+    padding: 0;
+}
+
+i {
+    font-style: normal;
+    font-weight: normal;
+}
+
+//margin-left
+.ml-5 {
+    margin-left: 10px;
+}
+
+.clearfix {
+    .clearfix()
+}
+
+.fr {
+    float: right;
+}
+
+.fl {
+    float: left;
+}
+
+.width_100 {
+    width: 100%;
+}
+
+.inputFocus() {
+    box-shadow: 0 0 2px @linkColor;
+}
+// input normal
+.input-text {
+    height: @inputHeight;
+    line-height: @inputHeight;
+    padding: 0 5px;
+    border: 1px solid @inputBorderColor;
+    .border-radius(3px);
+    &:focus {
+        .inputFocus;
+    }
+    &.nl {
+        width: @inputWidth;
+    }
+    &.short {
+        width: (@inputWidth - @inputShortML)/2;
+    & + & {
+        margin-left: 10px;
+    }
+  }
+}
+
+table {
+    tr {
+        th, td {
+            text-align: left;
+        }
+    }
+}
+
+.tar {
+    text-align: right;
+}
+.tal {
+    text-align: left;
+}
+.tac {
+    text-align: center;
+}
+
+.clear {
+    clear: both;
+}
+
+
+.ver-middle {
+    vertical-align: middle;
+}
+
+.ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.container {
+    padding: 10px;
+    h1 {
+        padding: 5px 10px;
+        margin-bottom: 20px;
+        border-left: 4px solid @blueFont;
+        background-color: #fafafa;
+    }
+    .box {
+        font-size: 14px;
+        margin-bottom: 20px;
+        h2 {
+            font-size: 16px;
+            line-height: 26px;
+            margin-bottom: 20px;
+        }
+        .desc {
+            padding: 0 5px;
+            // background-color: #f6f6f6;
+            line-height: 20px;
+        }
+    }
+    .example {
+        position: relative;
+        margin-bottom: 20px;
+        .example-label {
+            color: @blueFont;
+            margin-right: 10px;
+        }
+    }
+    .code {
+        background-color: #f7f7f9;
+        border-radius: 3px;
+        overflow: hidden;
+    }
+}
+
+table {
+    @tdHeight: 40px;
+    @tdPadding: 0;
+    @thBg: #f6f6f6;
+    @border: 1px solid @borderColor;
+    width: 100%;
+    border-collapse: collapse;
+    th, td {
+        height: @tdHeight;
+        line-height: @tdHeight - 20;
+        padding: @tdPadding 10px;
+        border: @border;
+    }
+    td {
+        background-color: #fff;
+        white-space: nowrap;
+        .icon {
+            position: relative;
+            top: 1px;
+        }
+        &.right {
+            text-align: right;
+        }
+        &.option {
+            .icon {
+                vertical-align: text-bottom;
+                cursor: pointer;
+            }
+        }
+    }
+    th {
+        background-color: @thBg;
+        font-weight: 800;
+        white-space: nowrap;
+        .warning-circle-gray {
+            top: 4px;
+            left: 3px;
+            position: relative;
+        }
+    }
+    tr:nth-child(even) {
+        td {
+            background-color: #fafafa;
+        }
+    }
+    &.layout {
+        td {
+            padding: 0;
+            > div {
+                height: @tdHeight;
+                line-height: 28px;
+                padding: 5px 10px;
+                //overflow: hidden;
+                //text-overflow: ellipsis;
+                //white-space: nowrap;
+            }
+        }
+
+    }
+    .group-head {
+        th, td {
+            height: @tdHeight / 2;
+            line-height: @tdHeight / 2 - 2;
+            padding: 0 10px;
+            min-width: 60px;
+        }
+    }
+    .right {
+        text-align: right;
+    }
+    .center {
+        text-align: center;
+    }
+}
+
+
+.btn {
+    display: inline-block;
+    color: #666;
+    background-color: transparent;
+    //font-weight: 400;
+    text-align: center;
+    border: 1px solid #e5e5e5;
+    min-width: 70px;
+    white-space: nowrap;
+    font-size: 12px;
+    padding: 3px 10px;
+    line-height: 1.42857143;
+    border-radius: 4px;
+    vertical-align: middle;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: none;
+    //transform: translateZ(0);
+    //transition: all .2s cubic-bezier(.645,.045,.355,1);
+    > span {
+        line-height: 20px;
+    }
+    & + & {
+        margin-left: 10px;
+    }
+    &:hover {
+        background-color: #e8e8e8;
+        border-color: #d3d3d3;
+    }
+    &:active {
+        box-shadow: 1px 1px 5px rgba(0 ,0 ,0 , .05) inset, -1px -1px 5px rgba(0 ,0 ,0 , .05) inset;
+    }
+    &.disabled:active {
+        box-shadow: none;
+    }
+    &.middle {
+        font-size: 14px;
+        padding: 4px 10px;
+        min-width: 90px;
+        letter-spacing: 1px;
+    }
+    &.large {
+        font-size: 14px;
+        padding: 5px 10px;
+        min-width: 100px;
+        letter-spacing: 1px;
+        & + & {
+            margin-left: 15px;
+        }
+    }
+    &.btn-icon {
+        > span {
+            display: inline-block;
+            line-height: 20px;
+            vertical-align: middle;
+        }
+    }
+    &.gray {
+        @bgColor: #f6f6f6;
+        background-color: @bgColor;
+        color: #666;
+        border-color: #d3d3d3;
+        &:hover {
+            background-color: #e8e8e8;
+        }
+        &[disabled], &.disabled {
+            cursor: not-allowed;
+            opacity: 0.5;
+            filter: Alpha(opacity=50);
+            &:hover {
+                background-color: @bgColor;
+            }
+        }
+    }
+    &.blue {
+        @bgColor: #1f7cce;
+        color: #fff;
+        background-color: @bgColor;
+        border-color: #266dab;
+        &:hover {
+            background-color: #196cb6;
+        }
+        &[disabled], &.disabled {
+            cursor: not-allowed;
+            background-color: #a5cbeb;
+            border-color: #a8c5dd;
+            &:hover {
+                background-color: #a5cbeb;
+            }
+        }
+    }
+    &.green {
+        @bgColor: #30ad63;
+        background-color: @bgColor;
+        color: #fff;
+        border-color: #109e4c;
+        overflow: hidden;
+        &:hover {
+            background-color: #16a251;
+        }
+        &[disabled], &.disabled {
+            cursor: not-allowed;
+            background-color: #a9dfbf;
+            border-color: #a7d7bb;
+            &:hover {
+                background-color: #a9dfbf;
+            }
+        }
+    }
+    &.red {
+        @bgColor: #dd4a3b;
+        background-color: @bgColor;
+        color: #fff;
+        border-color: #109e4c;
+        overflow: hidden;
+        &:hover {
+            background-color: #c54032;
+        }
+        &[disabled], &.disabled {
+            cursor: not-allowed;
+            background-color: #f1b7b1;
+            border-color: #e5b1af;
+            &:hover {
+                background-color: #f1b7b1;
+            }
+        }
+    }
+}
+
+
+@import "highlight.less";

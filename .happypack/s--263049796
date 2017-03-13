@@ -1,0 +1,92 @@
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.default = undefined;
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _Container = require('../component/Container');
+
+var _Container2 = _interopRequireDefault(_Container);
+
+var _Radio = require('../../tools/Radio');
+
+var _Radio2 = _interopRequireDefault(_Radio);
+
+var _reactHighlight = require('react-highlight');
+
+var _reactHighlight2 = _interopRequireDefault(_reactHighlight);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var TooltipsHtml = function (_React$Component) {
+    _inherits(TooltipsHtml, _React$Component);
+
+    function TooltipsHtml(props) {
+        _classCallCheck(this, TooltipsHtml);
+
+        return _possibleConstructorReturn(this, (TooltipsHtml.__proto__ || Object.getPrototypeOf(TooltipsHtml)).call(this, props));
+    }
+
+    _createClass(TooltipsHtml, [{
+        key: 'render',
+        value: function render() {
+
+            var config = {
+                name: 'Radio',
+                desc: 'Radio组件',
+                options: [{ key: 'radioList', type: 'Array', default: '[]', required: 'Y', desc: 'radio 对象数组 格式约定为[{value: radio的value, desc: radio的描述, ...other}]' }, { key: 'defaultValue', type: '和radioList中value的type相同', default: '', desc: 'radio默认选中值 defaultValue === value' }, { key: 'trigger', type: 'function', default: '', desc: '选中回调' }]
+            };
+            var radio = {
+                radioList: [{ value: 'A', desc: 'radio A' }, { value: 'B', desc: 'radio B' }, { value: 'C', desc: 'radio C' }],
+                trigger: function trigger(item, idx) {
+                    alert('I selected ' + item.desc);
+                },
+                defaultValue: 'B'
+            };
+            return _react2.default.createElement(
+                _Container2.default,
+                { config: config },
+                _react2.default.createElement(
+                    'div',
+                    { className: 'example clearfix' },
+                    _react2.default.createElement(
+                        'div',
+                        { className: 'fl' },
+                        _react2.default.createElement(_Radio2.default, radio)
+                    )
+                ),
+                _react2.default.createElement(
+                    'div',
+                    { className: 'code' },
+                    _react2.default.createElement(
+                        _reactHighlight2.default,
+                        { className: 'javascript' },
+                        'const radio = {\n    radioList: [\n        {value: \'A\', desc: \'radio A\'},\n        {value: \'B\', desc: \'radio B\'},\n        {value: \'C\', desc: \'radio C\'}\n    ],\n    trigger: (item, idx) => {\n        alert(\'I selected \' + item.desc\');\n    },\n    defaultValue: \'B\'\n}'
+                    ),
+                    _react2.default.createElement(
+                        _reactHighlight2.default,
+                        { className: 'html' },
+                        '<Radio {...radio} />'
+                    )
+                )
+            );
+        }
+    }]);
+
+    return TooltipsHtml;
+}(_react2.default.Component);
+
+exports.default = TooltipsHtml;

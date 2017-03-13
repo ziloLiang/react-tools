@@ -1,0 +1,183 @@
+'use strict';
+
+/**
+ * @file suggest
+ * @description RT
+ * @author liangdong06
+ */
+
+var React = require('react');
+var searchIcon = require('./search.png');
+var refreshIcon = require('./refresh.png');
+require('./Suggest.less');
+
+var timer = null;
+
+var Suggest = React.createClass({
+    displayName: 'Suggest',
+    getInitialState: function getInitialState() {
+        return {
+            list: [],
+            inputValue: '',
+            label: this.props.defaultValue || ''
+        };
+    },
+    getDefaultProps: function getDefaultProps() {
+        return {
+            disKey: 'name',
+            coverLabel: true
+        };
+    },
+    componentWillReceiveProps: function componentWillReceiveProps(props) {
+        this.setState({
+            inputValue: '',
+            label: props.defaultValue || ''
+        });
+    },
+    handleClick: function handleClick(item) {
+        var _props = this.props,
+            labelKey = _props.labelKey,
+            disKey = _props.disKey,
+            coverLabel = _props.coverLabel,
+            trigger = _props.trigger,
+            param = _props.param;
+
+        var lKey = labelKey || disKey;
+
+        this.setState({
+            label: item[lKey],
+            // inputValue: !coverLabel ? item[lKey] : '',
+            list: []
+        });
+
+        if (trigger) {
+            // let param = param || {};
+            this.props.trigger(item, param);
+        }
+    },
+
+    // 去抖
+    debounce: function debounce(value) {
+        var _this = this;
+
+        var wait = this.props.wait || 300;
+        clearTimeout(timer);
+        timer = setTimeout(function () {
+            _this.handleCallback(value);
+        }, wait);
+    },
+    handleChange: function handleChange(e) {
+        var value = e.target.value;
+        this.setState({
+            inputValue: value
+        });
+        if (!value) {
+            this.reset();
+            return;
+        }
+        this.debounce(value);
+    },
+    handleCallback: function handleCallback(value) {
+        var _this2 = this;
+
+        this.setState({
+            loading: true
+        });
+        var promise = this.props.handleChange(value, this.setList);
+        if (promise && typeof promise.then === 'function') {
+            promise.then(function (list) {
+                _this2.setList(list);
+            });
+        }
+    },
+    removeLabel: function removeLabel() {
+        this.setState({
+            label: '',
+            inputValue: ''
+        });
+        if (this.props.removeLabel) {
+            this.props.removeLabel();
+        }
+    },
+    setList: function setList(list) {
+        this.setState({
+            loading: false,
+            list: list
+        });
+    },
+    stopPropagation: function stopPropagation(event) {
+        event.stopPropagation();
+    },
+    componentDidMount: function componentDidMount() {
+        window.addEventListener('click', this.reset, false);
+    },
+    componentWillUnmount: function componentWillUnmount() {
+        window.removeEventListener('click', this.reset, false);
+    },
+    reset: function reset() {
+        this.setState({
+            list: []
+        });
+        clearTimeout(timer);
+    },
+    render: function render() {
+        var _this3 = this;
+
+        var hasList = this.state.list.length;
+        var wrapClass = 'befe-suggest ' + (hasList ? 'show' : '');
+        var _props2 = this.props,
+            disKey = _props2.disKey,
+            coverLabel = _props2.coverLabel,
+            placeholder = _props2.placeholder,
+            template = _props2.template;
+
+
+        return React.createElement(
+            'div',
+            { className: wrapClass, onClick: this.stopPropagation },
+            React.createElement(
+                'div',
+                { className: 'suggest-outer' },
+                coverLabel && this.state.label ? React.createElement(
+                    'div',
+                    { className: 'suggest-label' },
+                    React.createElement(
+                        'span',
+                        { className: 'suggest-label-text' },
+                        this.state.label
+                    ),
+                    React.createElement('span', { onClick: this.removeLabel, className: 'suggest-icon suggest-close' })
+                ) : null,
+                React.createElement('input', { className: 'suggest-input',
+                    value: this.state.inputValue,
+                    type: 'text', placeholder: placeholder || '',
+                    onChange: this.handleChange }),
+                this.state.loading ? React.createElement('span', { className: 'suggest-icon refresh fa-spin' }) : React.createElement('span', { className: 'suggest-icon search' })
+            ),
+            hasList ? React.createElement(
+                'div',
+                { className: 'suggest-hidden' },
+                React.createElement(
+                    'div',
+                    { className: 'suggest-inner' },
+                    React.createElement(
+                        'div',
+                        { className: 'suggest-list' },
+                        this.state.list.map(function (item, i) {
+                            return template ? template(item, i, _this3.handleClick.bind(_this3, item)) : React.createElement(
+                                'div',
+                                {
+                                    className: 'suggest-li',
+                                    key: i,
+                                    onClick: _this3.handleClick.bind(_this3, item) },
+                                item[disKey]
+                            );
+                        })
+                    )
+                )
+            ) : null
+        );
+    }
+});
+
+module.exports = Suggest;

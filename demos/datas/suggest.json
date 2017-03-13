@@ -1,0 +1,7 @@
+{
+    "list": [
+        {"value": "A", "name": "suggest A", "email": "A@gmail.com"},
+        {"value": "B", "name": "suggest B", "email": "B@gmail.com"},
+        {"value": "C", "name": "suggest C", "email": "C@gmail.com"}
+    ]
+}

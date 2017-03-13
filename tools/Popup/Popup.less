@@ -1,0 +1,50 @@
+.popup {
+    position: absolute;
+    z-index: 2100;
+    .triggle {
+        @width: 8px;
+        position: absolute;
+        height: @width * 2;
+        width: @width * 2;
+        z-index: 10;
+        &.top {
+            .triggle-outer {
+                border-top-style: solid;
+                border-top-color: #c9c9c9;
+            }
+            .triggle-inner {
+                border-top-style: solid;
+                border-top-color: #fff;
+            }
+        }
+        &.bottom {
+            .triggle-outer {
+                border-bottom-style: solid;
+                border-bottom-color: #c9c9c9;
+            }
+            .triggle-inner {
+                left: 2px;
+                top: 4px;
+                border-bottom-style: solid;
+                border-bottom-color: #fff;
+            }
+        }
+        .tri {
+            position: absolute;
+            height: 0;
+            width: 0;
+            border-style: dashed;
+            border-color: transparent;
+        }
+        .triggle-outer {
+            left: 0;
+            top: 0;
+            border-width: 8px;
+        }
+        .triggle-inner {
+            left: 1px;
+            top: 0;
+            border-width: 6px;
+        }
+    }
+}

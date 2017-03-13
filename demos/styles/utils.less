@@ -1,0 +1,101 @@
+// 清除浮动
+.clearfix() {
+    *zoom: 1;
+    &:before,
+    &:after {
+        display: table;
+        content: " ";
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+// 三角形
+.caret(@color:#333, @size: 6px) {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  border-width: @size @size 0;
+  border-style: solid;
+  border-color: @color transparent transparent transparent;
+}
+
+// 透明度
+.opacity(@opacity) {
+  opacity: @opacity;
+  // IE8 filter
+  @opacity-ie: (@opacity * 100);
+  filter: ~"alpha(opacity=@{opacity-ie})";
+}
+
+// 省略号
+.text-overflow() {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+// Placeholder text
+.placeholder(@color: @input-color-placeholder) {
+  // Firefox
+  &::-moz-placeholder {
+    color: @color;
+    opacity: 1; // Override Firefox's unusual default opacity; see https://github.com/twbs/bootstrap/pull/11526
+  }
+  &:-ms-input-placeholder { color: @color; } // Internet Explorer 10+
+  &::-webkit-input-placeholder  { color: @color; } // Safari and Chrome
+}
+
+// Box sizing
+.box-sizing(@boxmodel) {
+  -webkit-box-sizing: @boxmodel;
+     -moz-box-sizing: @boxmodel;
+          box-sizing: @boxmodel;
+}
+// 阴影
+.box-shadow(...) {
+  -webkit-box-shadow: @arguments;
+     -moz-box-shadow: @arguments;
+          box-shadow: @arguments;
+}
+
+// 圆角
+.border-radius(@radius: 3px){
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+    -ms-border-radius: @radius;
+    border-radius: @radius;
+}
+
+// transform中心点
+.transform-origin(@origin) {
+  -webkit-transform-origin: @origin;
+     -moz-transform-origin: @origin;
+      -ms-transform-origin: @origin; // IE9 only
+          transform-origin: @origin;
+}
+
+// 变换
+.transform(...){
+    -webkit-transform: @arguments;
+    -moz-transform: @arguments;
+    -ms-transform: @arguments;
+    -o-transform: @arguments;
+    transform: @arguments;
+}
+
+//过渡色
+.gradient(@dir: left, @startColor, @endColor) {
+  background: -webkit-linear-gradient(@dir, @startColor, @endColor);
+  background: -moz-linear-gradient(@dir, @startColor, @endColor);
+  background: -ms-linear-gradient(@dir, @startColor, @endColor);
+  background: linear-gradient(@dir, @startColor, @endColor);
+}
+
+// 过渡
+.transition(@transition) {
+  -webkit-transition: @transition;
+       -o-transition: @transition;
+          transition: @transition;
+}
